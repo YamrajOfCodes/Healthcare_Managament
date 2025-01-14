@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  Calendar, User, Stethoscope, Clock, 
+  Calendar, Clock, 
   VideoIcon, MapPin, AlertCircle 
 } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Addappointment, getallPatients } from '@/Redux/Slices/Patient/patientSlices';
 import { getDoctors } from '@/Redux/Slices/Admin/adminSlice';
 import toast from 'react-hot-toast';
+import { RootState } from '@/Redux/App/store';
+import { useAppDispatch } from '@/hooks';
 
 const MedicalIllustration = () => (
   <svg className="w-full h-auto" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
@@ -29,6 +31,14 @@ const MedicalIllustration = () => (
   </svg>
 );
 
+
+type Appointment = {
+  patient_id: string;
+  doctor_id: string;
+  mode: string;
+  appointment_date: string;
+};
+
 const Appointment = () => {
   const [time, setTime] = useState<string>("");
   const [aptDate, setAptDate] = useState<string>("");
@@ -37,18 +47,21 @@ const Appointment = () => {
 const [searchResult, setSearchResult] = useState<string>("");
 const [isHidden, setIsHidden] = useState(false);
 
-  const [appointment, setAppointment] = useState({
-    patient_id: "",
-    doctor_id:"",
-    mode: "",
-    appointment_date: "", 
-  });
-  const { allpatients } = useSelector((state) => state.Patient);
-  const {doctors} = useSelector((state)=>state.Doctor)
+
+
+
+const [appointment, setAppointment] = useState<Appointment>({
+  patient_id: "",
+  doctor_id: "",
+  mode: "",
+  appointment_date: "",
+});
+  const { allpatients } = useSelector((state:RootState) => state.Patient);
+  const {doctors} = useSelector((state:RootState)=>state.Doctor)
 
   // handledoctor
 
-  const handledoctors = (e)=>{
+  const handledoctors = (e:any)=>{
     setdoctor(e);
     
     setAppointment((prevappointment)=>({
@@ -57,10 +70,11 @@ const [isHidden, setIsHidden] = useState(false);
     }))
   }
   
+  const dispatch = useAppDispatch();
 
   const handleSearch = () => {
     setIsHidden(false)
-    const matchedPatient = allpatients?.[0]?.find((element) => element.name.toLowerCase() === searchInput.toLowerCase());
+    const matchedPatient = allpatients?.find((element:any) => element.name.toLowerCase() === searchInput.toLowerCase());
     if (matchedPatient) {
       setSearchResult(`Patient found: ${matchedPatient.name}`);
       setAppointment((prevAppointment) => ({
@@ -73,21 +87,11 @@ const [isHidden, setIsHidden] = useState(false);
   };
 
 
-const handleInputChange = (e) => {
+const handleInputChange = (e:any) => {
   setSearchInput(e.target.value);
 };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setAppointment({ ...appointment, [name]: value });
-  };
-
-
-  const dispatch = useDispatch();
-
-
-
-  const handleDateChange = (e) => {
+  const handleDateChange = (e:any) => {
     const newDate = e.target.value;
     setAptDate(newDate);
     setAppointment((prev) => ({
@@ -97,7 +101,7 @@ const handleInputChange = (e) => {
   };
 
 
-  const handleTimeChange = (e) => {
+  const handleTimeChange = (e:any) => {
     const newTime = e.target.value;
     setTime(newTime);
     setAppointment((prev) => ({
@@ -106,7 +110,7 @@ const handleInputChange = (e) => {
     }));
   };
 
-  const handleappointment = (e)=>{
+  const handleappointment = (e:any)=>{
     setAppointment((prevappointments)=>({
       ...prevappointments,
       mode:e
@@ -116,7 +120,7 @@ const handleInputChange = (e) => {
 
 
 
-  const submitAppointment = (e) => {
+  const submitAppointment = (e:any) => {
     e.preventDefault();
   
    
@@ -133,28 +137,17 @@ const handleInputChange = (e) => {
         return;
       }else{
         dispatch(Addappointment(appointment))
-  .then((res) => {
-    if (res?.payload) {
-      toast.success("Appointment is booked");
-
-      // Reset the appointment state after success
-      setAppointment({
-        doctor_id: "",
-        mode: "",
-        patient_id: "",
-        appointment_date: "",
-      });
-    } else {
-      toast.error("Failed to book the appointment. Please try again.");
-    }
+  .unwrap()
+  .then((result) => {
+    toast.success("appointment created successfully");
   })
   .catch((error) => {
-    // Handle any unexpected errors
-    console.error("Error booking the appointment:", error);
-    toast.error("An error occurred while booking the appointment.");
+    toast.error('Error while adding appointment');
   });
-      }
-       }
+  }
+}
+ 
+     
 
   
 
@@ -227,7 +220,7 @@ const handleInputChange = (e) => {
       <select
         name="doctor"
         id="doctor"
-        onClick={(e) => handledoctors(e.target.value)}
+        onClick={(e) => handledoctors((e.target as HTMLSelectElement).value)}
         className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
       >
         <option value="" key={14}>Select doctor</option>

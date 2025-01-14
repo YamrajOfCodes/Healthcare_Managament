@@ -1,10 +1,8 @@
 'use client';
-
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { User, FileText, Activity, Clock, MoreVertical, Phone, MapPin, Shield } from 'lucide-react';
 import EditPatient from './Dashboard/EditPatient';
-import { useDispatch, useSelector } from 'react-redux';
-import { getallPatients } from '@/Redux/Slices/Patient/patientSlices';
+
 
 type ProfileProps = {
   id: number;
@@ -41,26 +39,19 @@ const profiles: ProfileProps[] = [
 ];
 
 const ProfileCard: React.FC<ProfileProps> = ({
-  id,
   name,
-  age,
-  gender,
   address,
   phone,
-  addedBy,
-  visits,
   entryTime,
-  waitingTime,
   updated_at
 },) => {
-  const [open,setOpen] = useState<boolean>(false)
   const [redirected,setredirected] = useState<Boolean>(false)
-  const [isHovered, setIsHovered] = useState(false);
+
 
   console.log(entryTime)
 
   let entryyear = entryTime.slice(0,4);
-  let entrymonth = entryTime.slice(5,7)
+  let entrymonth:any = entryTime.slice(5,7)
   let entryday = entryTime.slice(8,10)
 
   if(entrymonth == 1){
@@ -93,8 +84,7 @@ const ProfileCard: React.FC<ProfileProps> = ({
   
 
   const date = new Date(updated_at)
-  const hours = date.getHours()
-  const minutes = date.getMinutes()
+
 
   // console.log("time today",date)
    
@@ -118,11 +108,11 @@ const ProfileCard: React.FC<ProfileProps> = ({
 
 
 
-  const handleeditpatient = (e)=>{
-    window.scrollTo(0,0);
-    setIsEditing(true);
-    seteditpatient(e)
-  }
+  // const handleeditpatient = (e)=>{
+  //   window.scrollTo(0,0);
+  //   setIsEditing(true);
+  //   seteditpatient(e)
+  // }
   
 
  
@@ -137,8 +127,6 @@ const ProfileCard: React.FC<ProfileProps> = ({
       className="w-full max-w-4xl bg-gradient-to-br from-white/80 to-white/60 rounded-2xl shadow-lg p-8 hidden xl:block
                  backdrop-blur-xl border border-white/20 transition-all duration-500 
                  hover:shadow-2xl hover:border-blue-200/30"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       <div className="flex items-center justify-between gap-8">
         {/* Profile Section */}
@@ -245,8 +233,8 @@ const ProfileCard: React.FC<ProfileProps> = ({
       className="w-[300px] sm:w-[230px] bg-white rounded-xl shadow-lg p-4 xl:hidden
                  backdrop-blur-xl border border-white/20 transition-all duration-500 
                  hover:shadow-2xl hover:border-blue-200/30"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      // onMouseEnter={() => setIsHovered(true)}
+      // onMouseLeave={() => setIsHovered(false)}
     >
       {/* Profile Section */}
       <div className="flex flex-col items-center gap-3">
@@ -358,7 +346,7 @@ const ProfileCard: React.FC<ProfileProps> = ({
         >
           {/* Inside the modal (EditPatient), click will stop propagation */}
           <div onClick={handleModalClick} className='w-2/3'>
-            <EditPatient />
+            <EditPatient  onClose={false}/>
           </div>
         </div>
       )}

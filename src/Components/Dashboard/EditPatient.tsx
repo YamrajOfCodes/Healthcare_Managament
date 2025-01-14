@@ -3,16 +3,25 @@ import React, { useState } from 'react';
 import { Activity, Heart, User, Calendar, Clipboard, Mail, Phone, MapPin, ChevronRight } from 'lucide-react';
 import { updatePatient } from '@/Redux/Slices/Patient/patientSlices';
 import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '@/hooks';
+
+interface PatientData {
+  name?: string;
+  dob?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+}
 
 const PatientEditForm = ({ patientdata = {}, onClose }) => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [formData, setFormData] = useState({
-    fullname: patientdata?.name || '',
-    dateOfBirth: patientdata?.dob || '',
-    email: patientdata?.email || '',
-    phone: patientdata?.phone || '',
-    address: patientdata?.address || '',
+    fullname: (patientdata as PatientData)?.name || '',
+    dateOfBirth: (patientdata as PatientData)?.dob || '',
+    email: (patientdata as PatientData)?.email || '',
+    phone: (patientdata as PatientData)?.phone || '',
+    address: (patientdata as PatientData)?.address || '',
   });
 
   const handleInputChange = (e) => {
@@ -113,7 +122,7 @@ const PatientEditForm = ({ patientdata = {}, onClose }) => {
                       id="patientId"
                       disabled
                       className="block w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-100 focus:border-blue-500"
-                      placeholder={patientdata?.id || 'N/A'}
+                      placeholder={patientdata?.['id'] || 'N/A'}
                     />
                   </div>
                 </div>

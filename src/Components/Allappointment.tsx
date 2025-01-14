@@ -1,12 +1,14 @@
 "use client"
 import { getWaitingroom } from '@/Redux/Slices/Admin/adminSlice';
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Calendar, Phone, Mail, User, Clock, MapPin, Activity, Hash, Monitor } from 'lucide-react';
+import { useAppDispatch } from '@/hooks';
+import { RootState } from '@/Redux/App/store';
 
 const Allappointment = () => {
-    const dispatch = useDispatch();
-    const { waitingroom } = useSelector((state)=>state.Doctor);
+    const dispatch = useAppDispatch();
+    const { waitingroom } = useSelector((state:RootState)=>state.Doctor);
     console.log("waitingroom",waitingroom[0]?.[0]);
 
     const getStatusColor = (status) => {
@@ -20,35 +22,35 @@ const Allappointment = () => {
         }
     }
 
-    const appointments = [
-        {
-          id: 1,
-          patientName: 'John Doe',
-          email: 'john.doe@example.com',
-          phone: '123-456-7890',
-          doctorName: 'Dr. Smith',
-          mode: 'In-person',
-          status: 'Confirmed',
-        },
-        {
-          id: 2,
-          patientName: 'Jane Smith',
-          email: 'jane.smith@example.com',
-          phone: '987-654-3210',
-          doctorName: 'Dr. Brown',
-          mode: 'Online',
-          status: 'Pending',
-        },
-        {
-          id: 3,
-          patientName: 'Mike Johnson',
-          email: 'mike.johnson@example.com',
-          phone: '456-789-1234',
-          doctorName: 'Dr. Taylor',
-          mode: 'In-person',
-          status: 'Cancelled',
-        },
-      ];
+    // const appointments = [
+    //     {
+    //       id: 1,
+    //       patientName: 'John Doe',
+    //       email: 'john.doe@example.com',
+    //       phone: '123-456-7890',
+    //       doctorName: 'Dr. Smith',
+    //       mode: 'In-person',
+    //       status: 'Confirmed',
+    //     },
+    //     {
+    //       id: 2,
+    //       patientName: 'Jane Smith',
+    //       email: 'jane.smith@example.com',
+    //       phone: '987-654-3210',
+    //       doctorName: 'Dr. Brown',
+    //       mode: 'Online',
+    //       status: 'Pending',
+    //     },
+    //     {
+    //       id: 3,
+    //       patientName: 'Mike Johnson',
+    //       email: 'mike.johnson@example.com',
+    //       phone: '456-789-1234',
+    //       doctorName: 'Dr. Taylor',
+    //       mode: 'In-person',
+    //       status: 'Cancelled',
+    //     },
+    //   ];
     
   
     useEffect(()=>{

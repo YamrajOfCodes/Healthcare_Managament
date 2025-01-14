@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Search, Filter, Plus, UserPlus } from 'lucide-react';
 import ProfileCard from './Profile';
 import { getallPatients } from '@/Redux/Slices/Patient/patientSlices';
 import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/Redux/App/store';
+export const useAppDispatch = () => useDispatch<AppDispatch>();
 
 const Showdashboard = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const dispatch = useDispatch()
+
+  const dispatch = useAppDispatch()
 
 
   useEffect(()=>{
@@ -15,51 +15,13 @@ const Showdashboard = () => {
   },[])
   
 
-  const {allpatients} = useSelector((state)=>state.Patient)
+  const {allpatients} = useSelector((state:RootState)=>state.Patient)
   console.log("data",allpatients)
   
 
   
 
-  const profiles = [
-    {
-      id: 1,
-      name: "MR Shounak Dey - VJNSPTH",
-      age: 41,
-      gender: "Male",
-      address: "Mahindra, flat no 4, Pimpri, PUNE",
-      phone: "+91 2323 323 3232",
-      addedBy: "super admin by no doctor",
-      visits: 9,
-      entryTime: "1:00pm",
-      waitingTime: "2 mins",
-    },
-    {
-      id: 2,
-      name: "MR Shounak Dey - VJNSPTH",
-      age: 41,
-      gender: "Male",
-      address: "Mahindra, flat no 4, Pimpri, PUNE",
-      phone: "+91 2323 323 3232",
-      addedBy: "super admin by no doctor",
-      visits: 9,
-      entryTime: "1:00pm",
-      waitingTime: "2 mins",
-    },
-    {
-      id: 3,
-      name: "MR Shounak Dey - VJNSPTH",
-      age: 41,
-      gender: "Male",
-      address: "Mahindra, flat no 4, Pimpri, PUNE",
-      phone: "+91 2323 323 3232",
-      addedBy: "super admin by no doctor",
-      visits: 9,
-      entryTime: "1:00pm",
-      waitingTime: "2 mins",
-    },
-    // ... other profiles
-  ];
+
 
   return (
     <div className="h-full">
@@ -134,7 +96,7 @@ const Showdashboard = () => {
     Recently Added
   </p>
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-6">
-    {allpatients?.[0]?.slice(-4).map((profile) => (
+    {allpatients?.slice(-4).map((profile:any) => (
       <div
         key={profile.id}
         className="groupshadow-lg rounded-lg overflow-hidden transform transition-transform hover:scale-105  cursor-pointer flex justify-center sm:justify-start"

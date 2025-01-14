@@ -1,26 +1,28 @@
 "use client"
 import { useEffect, useState } from 'react';
-import { User, Shield, MapPin, Phone, Clock, FileText, Activity, MoreVertical } from 'lucide-react';
+import { MapPin, Phone, Clock, MoreVertical } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getWaitingroom } from '@/Redux/Slices/Admin/adminSlice';
 import Link from 'next/link';
 import { completePatient } from '@/Redux/Slices/Patient/patientSlices';
+import { AppDispatch, RootState } from '@/Redux/App/store';
+export const useAppDispatch = () => useDispatch<AppDispatch>();
 
-const PatientCard = ({ patient, onStatusChange, onRemove , appointment,address,phone,updated_at,date,visit,gender,dob,waitingid}) => {
+const PatientCard = ({ patient, appointment,address,phone,date,visit,gender,dob,waitingid}) => {
   const [open, setOpen] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [waiting,setwaiting]=useState(null)
-  const dispatch = useDispatch();
+  // const [isHovered, setIsHovered] = useState(false);
+  // const [waiting,setwaiting]=useState(null)
+  const dispatch = useAppDispatch();
 
   console.log(waitingid);
   
 
 
-  let tempdate;
+  let tempdate:any;
   let age = new Date().getFullYear() - dob.slice(0,4);
 
-  const entrydate = new Date(date); // Ensure 'date' is a valid string
-  const now = new Date();
+  const entrydate:any = new Date(date); // Ensure 'date' is a valid string
+  const now:any = new Date();
   
   let waiting_time_ms =  now - entrydate ; // Difference in milliseconds
   if (waiting_time_ms < 0) {
@@ -161,8 +163,8 @@ const PatientCard = ({ patient, onStatusChange, onRemove , appointment,address,p
 
 
 export default function WaitingRoom() {
-  const dispatch = useDispatch();
-  const { waitingroom } = useSelector((state)=>state.Doctor);
+  const dispatch = useAppDispatch();
+  const { waitingroom } = useSelector((state:RootState)=>state.Doctor);
   console.log("waitingroom",waitingroom);
   
 

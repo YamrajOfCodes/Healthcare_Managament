@@ -1,27 +1,20 @@
 "use client"
-import { deletePatient, getallPatients, updatePatient } from '@/Redux/Slices/Patient/patientSlices';
+import { deletePatient, getallPatients} from '@/Redux/Slices/Patient/patientSlices';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import ProfileCard from '../Profile';
 import { Activity, Calendar, ChevronRight, Clock, Edit2, Search, Trash2, Users } from 'lucide-react';
 import PatientEditForm from './EditPatient';
+import { useAppDispatch } from '@/hooks';
+import { RootState } from '@/Redux/App/store';
 
-const getStatusColor = (condition) => {
-    const conditions = {
-      'Critical': 'bg-red-100 text-red-800',
-      'Stable': 'bg-green-100 text-green-800',
-      'Improving': 'bg-blue-100 text-blue-800',
-      'Under Observation': 'bg-yellow-100 text-yellow-800'
-    };
-    return conditions[condition] || 'bg-gray-100 text-gray-800';
-  };
+
 
 const Patients = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const [search,setsearch]=useState("");
     const [isEditing, setIsEditing] = useState(false);
     const [editpatient,seteditpatient]=useState(null)
-    const {deletepatient} = useSelector((state)=>state.Patient);
+    const {deletepatient} = useSelector((state:RootState)=>state.Patient);
 
     console.log(deletepatient);
 
@@ -43,10 +36,10 @@ const Patients = () => {
 
 
 
-    const {allpatients} = useSelector((state)=>state.Patient)
-    // console.log("data",allpatients)
+    const {allpatients} = useSelector((state:RootState)=>state.Patient)
+    console.log("data",allpatients)
     
-    const [patients,setPatients] = useState(allpatients?.[0]);
+    const [patients,setPatients] = useState(allpatients);
 
 
     const handlesearch = (e) => {
@@ -163,7 +156,7 @@ const Patients = () => {
 
   {/* Mobile View - Cards */}
   <div className="space-y-6 p-6 max-w-md mx-auto lg:hidden w-full ">
-  {patients?.map((profile) => (
+  {patients?.map((profile:any) => (
     <div
       key={profile.id}
       className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"

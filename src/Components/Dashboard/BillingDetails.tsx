@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react'
-import { Calendar, Clock, Printer, Save, LayoutDashboard, MoreHorizontal, ChevronDown , Phone, MapPin } from 'lucide-react';
+import { Calendar, Phone, MapPin } from 'lucide-react';
 
 const ProfileInfo = ({ icon: Icon, children }) => (
     <div className="flex items-center gap-2 text-gray-600">

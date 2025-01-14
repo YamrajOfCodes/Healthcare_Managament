@@ -1,29 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { format, addDays, isSameDay } from "date-fns";
 import { Calendar, Clock, User, FileText, AlertCircle } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { getAppointments } from "@/Redux/Slices/Patient/patientSlices";
+import { RootState } from "@/Redux/App/store";
+import { useAppDispatch } from "@/hooks";
 
 // Sample appointments data
-const appointments = [
-  { date: "2025-01-08", time: "09:00", patient: "John Doe", details: "Routine Checkup", status: "confirmed", priority: "normal" },
-  { date: "2025-01-08", time: "11:00", patient: "Jane Smith", details: "Follow-up Visit", status: "pending", priority: "high" },
-  { date: "2025-01-09", time: "10:00", patient: "Michael Brown", details: "Emergency Appointment", status: "confirmed", priority: "urgent" },
-  { date: "2025-01-10", time: "14:00", patient: "Emily Davis", details: "Consultation", status: "confirmed", priority: "normal" },
-  { date: "2025-01-11", time: "16:00", patient: "Chris Johnson", details: "Blood Test", status: "cancelled", priority: "normal" },
-];
+// const appointments = [
+//   { date: "2025-01-08", time: "09:00", patient: "John Doe", details: "Routine Checkup", status: "confirmed", priority: "normal" },
+//   { date: "2025-01-08", time: "11:00", patient: "Jane Smith", details: "Follow-up Visit", status: "pending", priority: "high" },
+//   { date: "2025-01-09", time: "10:00", patient: "Michael Brown", details: "Emergency Appointment", status: "confirmed", priority: "urgent" },
+//   { date: "2025-01-10", time: "14:00", patient: "Emily Davis", details: "Consultation", status: "confirmed", priority: "normal" },
+//   { date: "2025-01-11", time: "16:00", patient: "Chris Johnson", details: "Blood Test", status: "cancelled", priority: "normal" },
+// ];
 
 const ClinicCalendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState(null);
-  const dispatch =  useDispatch();
-  const { getappointments } = useSelector((state)=>state.Patient);
-  console.log("getappointments",getappointments[0]?.appointments[0]);
+  const dispatch =  useAppDispatch();
+  const { getappointments } = useSelector((state:RootState)=>state.Patient);
+  console.log("getappointments",getappointments?.appointments);
   // console.log("getappointments",getappointments[0].appointments[0].appointment_date.slice(0,10));
 
   let calenderData = [];
 
-  calenderData = getappointments[0]?.appointments?.map(element => {
+  calenderData = getappointments?.appointments?.map(element => {
    return {
     date:element.appointment_date.slice(0,10),
     time:element.appointment_date.slice(10,19),

@@ -1,7 +1,13 @@
 import React from 'react';
 import { Activity, Clock } from 'lucide-react';
 
-const StatusCard = ({ status = "Active", number = "5" }) => {
+interface StatusCardProps {
+  status?: "Active" | "Waiting" | "New" | "Follow-up" | "Out"; // Optional
+  number: number; // Required
+}
+
+const StatusCard: React.FC<StatusCardProps> = ({ status = "Active", number }) => {
+  
   return (
 <>
 <div className="relative group w-[240px] h-[220px] md:w-[300px] md:h-[340px] hidden lg:block">

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from 'react'; // Import useState hook for state management
+import { useState } from 'react'; // Import useState hook for state management
 import { Hospital, Mail, Phone, Calendar, User , Lock, Home } from 'lucide-react';
 import Image from 'next/image';
 import doctorpanne from "@/Assets/doctors.png"
@@ -9,6 +9,8 @@ import { useDispatch } from 'react-redux';
 import { RegisterPatient } from '@/Redux/Slices/Patient/patientSlices';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { AppDispatch } from '@/Redux/App/store';
+export const useAppDispatch = () => useDispatch<AppDispatch>();
 
 
 
@@ -16,7 +18,7 @@ export default function Register() {
   const router = useRouter();
   const [order, setOrder] = useState(1); // Track the order of the sections
   const [isSliding, setIsSliding] = useState(false); // Track sliding animation state
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   
 
   const handleOrderChange = () => {
