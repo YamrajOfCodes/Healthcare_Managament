@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { User, FileText, Activity, Clock, MoreVertical, Phone, MapPin, Shield } from 'lucide-react';
 import EditPatient from './Dashboard/EditPatient';
+import Healthrecord from './Dashboard/Healthrecord';
 
 
 type ProfileProps = {
@@ -48,7 +49,12 @@ const ProfileCard: React.FC<ProfileProps> = ({
   const [redirected,setredirected] = useState<Boolean>(false)
 
 
-  console.log(entryTime)
+  // console.log(entryTime)
+  const [odpbilling,setodpbilling] = useState(false);
+
+  const handlebilling = (e:any)=>{
+    setodpbilling(!odpbilling);
+  }
 
   let entryyear = entryTime.slice(0,4);
   let entrymonth:any = entryTime.slice(5,7)
@@ -97,7 +103,7 @@ const ProfileCard: React.FC<ProfileProps> = ({
   };
 
   // Function to stop the event propagation when clicking inside the modal
-  const handleModalClick = (event) => {
+  const handleModalClick = (event:any) => {
     event.stopPropagation();  // Prevent click from bubbling up to the overlay
    
   };
@@ -175,7 +181,7 @@ const ProfileCard: React.FC<ProfileProps> = ({
             <button className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl 
                            shadow-lg shadow-blue-500/30 hover:shadow-blue-500/40 
                            transition-all duration-300 hover:-translate-y-0.5">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2" onClick={handlebilling}>
                 <FileText className="h-4 w-4" />
                 <span>OPD Bill</span>
               </div>
@@ -227,6 +233,9 @@ const ProfileCard: React.FC<ProfileProps> = ({
         </div> */}
       </div>
     </div>
+
+
+ 
 
 {/* For sma screens */}
     <div 

@@ -51,7 +51,7 @@ const Patients = () => {
           return;
       }
   
-      const data = allpatients[0].filter((element) => {
+      const data = allpatients[0]?.filter((element:any) => {
           if (!element?.name) return false; // Ensure element and name exist
   
           const substring = element.name.slice(0, search.length).toLowerCase();
@@ -68,7 +68,7 @@ const Patients = () => {
     setsearch("");
   }
 
-  const handledeletepatient = (data)=>{
+  const handledeletepatient = (data:any)=>{
     console.log("id",data);
     dispatch(deletePatient(data));
   }

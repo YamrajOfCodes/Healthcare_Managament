@@ -3,6 +3,7 @@ import ProfileCard from './Profile';
 import { getallPatients } from '@/Redux/Slices/Patient/patientSlices';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/Redux/App/store';
+import Healthrecord from './Dashboard/Healthrecord';
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 
 const Showdashboard = () => {
@@ -18,7 +19,11 @@ const Showdashboard = () => {
   const {allpatients} = useSelector((state:RootState)=>state.Patient)
   console.log("data",allpatients)
   
+ const [odpbilling,setodpbilling] = useState(true);
 
+  const handlebilling = (e:any)=>{
+    setodpbilling(!odpbilling);
+  }
   
 
 
@@ -105,6 +110,13 @@ const Showdashboard = () => {
       </div>
     ))}
   </div>
+
+
+  {/* <div className={`"overlay absolute -top-28 w-[100vw] h-[120vh] bg-black/40 left-0 py-10 " ${odpbilling? 'block' : 'hidden'}`} onClick={()=>{setodpbilling(false)}}>
+              <Healthrecord 
+              // onClose={() => setodpbilling(false)}
+              />
+            </div> */}
 </div>
 
 

@@ -15,6 +15,8 @@ import Register from "@/Components/Register";
 import Allappointment from "@/Components/Allappointment";
 import Appointment from "@/Components/Appontment";
 import StatusCard from "@/Components/Card";
+import OTD_Billing from "@/Components/Dashboard/OTD_Billing";
+import Healthrecord from "@/Components/Dashboard/Healthrecord";
 
 
 interface NavItemProps {
@@ -92,6 +94,7 @@ const DashboardLayout: React.FC = () => {
   const [activeItem, setActiveItem] = useState<string>('Home');
   // const [patientOpen, setPatientOpen] = useState<boolean>(true);
   const [isSubNavOpen, setIsSubNavOpen] = useState<boolean>(true);
+  const [appointmentssubnav, appointsetIsSubNavOpen] = useState<boolean>(true);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
@@ -131,12 +134,12 @@ const DashboardLayout: React.FC = () => {
 
           {/* Sidebar */}
           <div className={`
-            fixed md:static inset-y-0 left-0 z-50 md:z-auto w-80
+            fixed md:static inset-y-0 left-0 z-50 md:z-auto w-80 
             transform transition-transform duration-500 ease-out
             ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
             md:translate-x-0
           `}>
-            <div className="relative h-screen bg-white backdrop-blur-2xl 
+            <div className="relative  bg-white backdrop-blur-2xl h-[100%]
               border-r border-white/20 shadow-[0_0_30px_rgba(0,0,0,0.1)]
               overflow-hidden">
               
@@ -198,7 +201,7 @@ const DashboardLayout: React.FC = () => {
                     <NavItem 
                       icon={Users} 
                       label="Patients" 
-                      isActive={activeItem === 'Patients'}
+                      isActive={activeItem === 'allpatients'}
                       onClick={() => setIsSubNavOpen(!isSubNavOpen)}
                       hasSubNav
                       notification={true}
@@ -218,19 +221,42 @@ const DashboardLayout: React.FC = () => {
                           highlight={true}
                         />
                         <SubNavItem 
-                          icon={CalendarPlus} 
-                          label="Schedule Appointment" 
-                          onClick={() => setActiveItem('Patients')}
-                        />
-                        <SubNavItem 
                           icon={UserPlus} 
                           label="Patient Register" 
                           onClick={() => setActiveItem('register')}
                         />
+                      
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <NavItem 
+                      icon={Users} 
+                      label="Appointments" 
+                      isActive={activeItem === 'allappointments'}
+                      onClick={() => appointsetIsSubNavOpen(!appointmentssubnav)}
+                      hasSubNav
+                      notification={true}
+                    />
+                    
+                    {appointmentssubnav && (
+                      <div className="ml-4 pl-4 border-l-2 border-blue-100/20 space-y-2">
                         <SubNavItem 
-                          icon={UserPlus} 
-                          label="All appointments" 
+                          icon={Users} 
+                          label="Schedule Appointment" 
+                          onClick={() => setActiveItem('Patients')}
+                        />
+                        <SubNavItem 
+                          icon={Clock} 
+                          label="All Appointments" 
                           onClick={() => setActiveItem('allappointments')}
+                          highlight={true}
+                        />
+                        <SubNavItem 
+                          icon={CalendarPlus} 
+                          label="upcoming appointments" 
+                          onClick={() => setActiveItem('Patients')}
                         />
                       </div>
                     )}
@@ -245,9 +271,16 @@ const DashboardLayout: React.FC = () => {
 
                   <NavItem 
                     icon={Settings} 
-                    label="Settings" 
-                    isActive={activeItem === 'Settings'}
-                    onClick={() => setActiveItem('Settings')}
+                    label="odpbilling" 
+                    isActive={activeItem === 'odpbilling'}
+                    onClick={() => setActiveItem('odpbilling')}
+                  />
+
+                   <NavItem 
+                    icon={Settings} 
+                    label="healthchart" 
+                    isActive={activeItem === 'healthchart'}
+                    onClick={() => setActiveItem('healthchart')}
                   />
                 </nav>
 
@@ -291,7 +324,7 @@ const DashboardLayout: React.FC = () => {
               activeItem === "allpatients" ? <Patients /> : 
               activeItem === "waitingroom" ? <Waitingroom /> : 
               activeItem === "register" ? <Register /> : 
-              activeItem === "allappointments" ? <Allappointment /> : null
+              activeItem === "allappointments" ? <Allappointment /> : activeItem == "odpbilling"? <OTD_Billing/> : activeItem == "healthchart"? <Healthrecord/>:null
             }
           </div>
 
